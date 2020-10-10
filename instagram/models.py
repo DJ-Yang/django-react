@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Post(models.Model):
-  author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  author = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
   message = models.TextField()
   photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%M/%d')
   tag_set = models.ManyToManyField('Tag', blank=True)

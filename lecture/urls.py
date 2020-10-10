@@ -17,13 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 class RootView(TemplateView):
     template_name = 'root.html'
 
 urlpatterns = [
-    path('', TemplateView.as_view(), name='root'),
+    # path('', RootView.as_view(), name='root'),
+    path('', RedirectView.as_view(
+        # url='/instagram'
+        pattern_name='instagram:post_list'  # 패턴 네임을 지정하는 스타일
+        ), name='root'),
     path('admin/', admin.site.urls),
     path('instagram/', include('instagram.urls')),
 ]

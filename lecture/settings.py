@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party
+    'bootstrap4',
     
     # local
     'instagram',
@@ -61,7 +62,11 @@ ROOT_URLCONF = 'lecture.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # File System Template Loader
+            # 특정 앱에 속하지 않는 템플릿 지정
+            os.path.join(BASE_DIR, 'lecture', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
