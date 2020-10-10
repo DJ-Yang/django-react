@@ -20,4 +20,38 @@ def post_list(requset: HttpRequest) -> HttpResponse:
 #     'post': post,
 #   })
 
-post_detail = DetailView.as_view(model=Post)
+
+#  디테일 뷰를 이용하는 두 가지 방법
+# 방법 1
+# post_detail = DetailView.as_view(model=Post)
+
+# 방법 2
+class PostDetailView(DetailView):
+  model = Post
+  # queryset = Post.objects.filter(is_public=True)
+
+  # 조건 나누기 (reqeust 인자는 self.request에 있다.)
+  def get_queryset(self):
+    qs = super()get_queryset()
+    # 로그인이 안되어있다면 is_public이 True인 파일만 확인
+    if not self.request.user.is_authenticiated:
+      qs = qs.filter(is_public=True)
+    return qs
+
+post_detail = PostDetailView.as_view()
+
+
+# 리스트 뷰 이용 방법
+# 방법 1
+# post_list = ListView.as_view(model=Post, paginate_by=10)
+# 방법 2
+class PostListView(ListView):
+  model = Post
+  pageinate_by = 10
+
+  def get_queryset(self):
+    qs = super().get_queryset()
+    qs = qs.filter()
+    return qs
+
+post_list = PostListView.as_view()
