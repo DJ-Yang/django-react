@@ -10,10 +10,11 @@
 </head>
 <body>
   <form action="" method="get">
+    <input name="q" value="{{ q }}" />
     <input type="submit" value="검색" />
   </form>
 
-  <table>
+  <table class="table">
     <tbody>
       {% for post in post_list %}
         <tr>
