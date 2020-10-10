@@ -32,7 +32,7 @@ class PostDetailView(DetailView):
 
   # 조건 나누기 (reqeust 인자는 self.request에 있다.)
   def get_queryset(self):
-    qs = super()get_queryset()
+    qs = super().get_queryset()
     # 로그인이 안되어있다면 is_public이 True인 파일만 확인
     if not self.request.user.is_authenticiated:
       qs = qs.filter(is_public=True)
@@ -47,7 +47,8 @@ post_detail = PostDetailView.as_view()
 # 방법 2
 class PostListView(ListView):
   model = Post
-  pageinate_by = 10
+  # 페이지네이션 기능 제공
+  paginate_by = 10
 
   def get_queryset(self):
     qs = super().get_queryset()
