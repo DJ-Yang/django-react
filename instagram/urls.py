@@ -1,15 +1,11 @@
 from django.urls import path, include, register_converter
 from . import views
+from . import converter
 
-# Converter 커스텀
-# class YearConverter:
-#   regex = '\d{4}'
-#   def to_python(self, value):
-#     return int(value)
-#   def to_url(self.value):
-#     return str(value)
+register_converter(YearConverter, 'year')
+register_converter(MonthConverter, 'month')
+register_converter(DayConverter, 'day')
 
-# register_converter(YearConverter, 'year')
 
 # <int:pk> 여기에서 int에 해당하는 것이 converter
 
@@ -19,4 +15,8 @@ app_name='instagram'
 urlpatterns = [
     path('', views.post_list, name='post_list'),
     path('<int:pk>/', views.post_detail),
+
+    path('archive', views.post_archive, name='post_archive'),
+    path('archive/<year:year>/', views.post_archive_year, name='post_archive_year'),
+    # path('archive/<year:year>/<month:month>/', views.post_archive_year, name='post_archive_month'),
 ]
