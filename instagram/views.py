@@ -64,7 +64,7 @@ class PostDetailView(DetailView):
   def get_queryset(self):
     qs = super().get_queryset()
     # 로그인이 안되어있다면 is_public이 True인 파일만 확인
-    if not self.request.user.is_authenticiated:
+    if not self.request.user.is_authenticated:
       qs = qs.filter(is_public=True)
     return qs
 

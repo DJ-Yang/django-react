@@ -1,3 +1,10 @@
+{% extends "instagram/layout.html" %}
+
+
+{% block title %} 
+  Post dDetail pk#{{post.pk}}
+{% endblock %}
+{% block content %} 
 <h2>Author: {{ post.author }}</h2>
 
 {% if post.photo %}
@@ -7,3 +14,10 @@
 {% endif %}
 
 {{ post.message }}
+
+<hr/>
+<a href="{% url 'instagram:post_list' %}" class="btn btn-primary">
+  목록
+</a>
+
+{% endblock %}

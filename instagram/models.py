@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -13,6 +14,10 @@ class Post(models.Model):
 
   def __str__(self):
     return self.message
+
+  # 디테일 페이지로 이동할 수 있는 모델 메소드(강사 추천)
+  def get_absolute_url(self):
+    return reverse('instagram:post_detail', args=[self.pk])
 
   class Meta:
     ordering = ['-id']
