@@ -2,10 +2,14 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+# 장고 폼 강의
+from django.core.validators import MinLengthValidator
 
 class Post(models.Model):
   author = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
-  message = models.TextField()
+  message = models.TextField(
+    validators=[MinLengthValidator(10)]
+  )
   photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%M/%d')
   tag_set = models.ManyToManyField('Tag', blank=True)
   in_public = models.BooleanField(default=False, verbose_name='공개여부')
