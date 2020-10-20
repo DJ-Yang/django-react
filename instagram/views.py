@@ -9,18 +9,45 @@ from django.views.generic import ArchiveIndexView, YearArchiveView
 
 from .forms import PostForm
 
+# message 이용
+from django.contrib import messages
 
+@login_required
 def post_new(request):
-
   if request.method == 'POST':
     form = PostForm(request.POST, request.FILES)
     if form.is_valid():
-      post = form.save()
+      post = form.save(commit=False)
+      post.author = request.user
+      post.save()
+      messages.success(request, '포스팅을 저장했습니다.')
       return redirect(post)
   else:
     form = PostForm()
   return render(request, 'instagram/post_form.html', {
     'form': form,
+    'post': None,
+  })
+
+@login_required
+def post_edit(request, pk):
+  post = get_object_or_404(Post, pk=pk)
+
+  if post.author != request.user:
+    messages.error(request, '작성자만 작성할 수 있습니다.')
+    return redirect(post)
+
+  if request.method == 'POST':
+    form = PostForm(request.POST, request.FILES, instance=post)
+    if form.is_valid():
+      post = form.save()
+      messages.success(request, '포스팅을 수정했습니다.')
+      return redirect(post)
+  else:
+    form = PostForm(instance=post)
+  return render(request, 'instagram/post_form.html', {
+    'form': form,
+    'post': post,
   })
 
 
@@ -46,11 +73,12 @@ post_list = PostListView.as_view()
 
 #   q = request.GET.get("q", '')
 #   qs = Post.objects.all()
-#   print(q)
+
 #   if q:
 #     qs = qs.filter(message__icontains=q)
 
-#   print(q)
+#   messages.info(request, 'messages 테스트')
+
 #   return render(request, 'instagram/post_list.html', {
 #     'post_list': qs,
 #     'q': q,
