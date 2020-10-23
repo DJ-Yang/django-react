@@ -4,10 +4,15 @@ from .models import Profile
 from .forms import ProfileForm
 
 # CBV
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
-# Create your views here.
+# 유저 모델
+from django.contrib.auth import get_user_model, login as auth_login
+from django.conf import settings
+
+User = get_user_model()
 
 # @login_required
 # def profile(request):
@@ -45,8 +50,15 @@ def profile_edit(request):
     'form': form,
   })
 
-def signup(request):
-  pass
+signup = CreateView.as_view(
+  model=User,
+  form_class=UserCreationForm,
+  success_url=settings.LOGIN_URL,
+  template_name='accounts/signup_form.html',
+)
+
+# def signup(request):
+#   pass
 
 def logout(request):
   pass
