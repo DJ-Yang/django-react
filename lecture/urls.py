@@ -30,6 +30,7 @@ urlpatterns = [
         ), name='root'),
     path('admin/', admin.site.urls),
     path('instagram/', include('instagram.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 if settings.DEBUG:

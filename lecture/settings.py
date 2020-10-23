@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     
     # local
     'instagram',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -141,7 +142,10 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# User manage
 AUTH_USER_MODEL = 'auth.User'
+
+# LOGIN_URL : login_required 등 로그인이 안되었을때 이동시킬 수 있음
 
 
 # django messages framework 이용하기
