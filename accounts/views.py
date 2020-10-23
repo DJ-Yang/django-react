@@ -50,15 +50,27 @@ def profile_edit(request):
     'form': form,
   })
 
-signup = CreateView.as_view(
-  model=User,
-  form_class=UserCreationForm,
-  success_url=settings.LOGIN_URL,
-  template_name='accounts/signup_form.html',
-)
+# 회원가입 후 바로 로그인으로 이동시키기
+class SignupView(CreateView):
+  model = User
+  form_class = UserCreationForm
+  success_url = settings.LOGIN_REDIRECT_URL
+  template_name='accounts/signup_form.html'
+
+  def form_valid(self, form):
+    response = super().form_valid(form)
+    user = self.object
+    auth_login(self.request, user)
+    return response
+
+signup = SignupView.as_view()
+
+# signup = CreateView.as_view(
+#   model=User,
+#   form_class=UserCreationForm,
+#   success_url=settings.LOGIN_URL,
+#   template_name='accounts/signup_form.html',
+# )
 
 # def signup(request):
 #   pass
-
-def logout(request):
-  pass
